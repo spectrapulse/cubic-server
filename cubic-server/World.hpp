@@ -9,6 +9,7 @@
 
 #include "Entity.hpp"
 #include "Chat.hpp"
+#include "nbt.hpp"
 #include "logging/Logger.hpp"
 #include "world_storage/LevelData.hpp"
 #include "TickClock.hpp"
@@ -25,6 +26,7 @@ public:
 
     virtual void tick();
     virtual void initialize() = 0;
+    virtual void save() = 0;
     virtual WorldGroup *getWorldGroup() const;
     virtual std::shared_ptr<Chat> getChat() const;
     virtual std::vector<Entity *> getEntities() const;
@@ -43,6 +45,7 @@ public:
 
 protected:
     std::shared_ptr<Chat> _chat;
+    std::shared_ptr<nbt::Compound> _data;
     WorldGroup *_worldGroup;
     logging::Logger *_log;
     std::vector<std::thread *> _processingThreads;
