@@ -385,8 +385,8 @@ public:
     constexpr void serialize(std::vector<uint8_t> &data, bool include_name = true) const override {
         Base::pre_serialize(data, include_name);
         // Serialize the length of the data
-        data.push_back(_value.size() >> 8);
-        data.push_back(_value.size() & 0xFF);
+        for (int i = 0; i < 4; i++)
+            data.push_back((_value.size() >> (24 - i * 8)) & 0xFF);
         // Serialize the ints
         for (auto d : _value) {
             for (int i = 0; i < 4; i++)
@@ -417,8 +417,8 @@ public:
     constexpr void serialize(std::vector<uint8_t> &data, bool include_name = true) const override {
         Base::pre_serialize(data, include_name);
         // Serialize the length of the data
-        data.push_back(_value.size() >> 8);
-        data.push_back(_value.size() & 0xFF);
+        for (int i = 0; i < 4; i++)
+            data.push_back((_value.size() >> (24 - i * 8)) & 0xFF);
         // Serialize the longs
         for (auto d : _value) {
             for (int i = 0; i < 8; i++)
@@ -450,7 +450,11 @@ public:
         Base::pre_serialize(data, include_name);
         TagType current = TagType::End;
         // serialize the type of the first componant of the list
-        data.push_back((uint8_t)_value[0]->getType());
+        if (_value.size() > 0) {
+            data.push_back((uint8_t)_value[0]->getType());
+        } else {
+            data.push_back((uint8_t)TagType::End);
+        }
         // Serialize the length of the data as int32
         for (int i = 0; i < 4; i++)
             data.push_back((_value.size() >> (24 - i * 8)) & 0xFF);
