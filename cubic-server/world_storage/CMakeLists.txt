@@ -11,6 +11,7 @@ target_sources (${CMAKE_PROJECT_NAME} PRIVATE
         Palette.cpp
         globalPalette_TEMP.hpp
         globalPalette_TEMP.cpp
+        GZIP.hpp
 )
 
 if (GTEST)
