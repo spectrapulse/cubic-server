@@ -18,6 +18,7 @@
 #include "protocol/ClientPackets.hpp"
 
 #include "logging/Logger.hpp"
+#include "World.hpp"
 #include "WorldGroup.hpp"
 #include "default/DefaultWorldGroup.hpp"
 
@@ -93,6 +94,7 @@ void Server::launch()
 void Server::stop()
 {
     // Flush worlds to disk
+    this->_worldGroups["default"]->getWorld("default")->save();
 
     //Disconect all clients
     for (auto &client : _clients)

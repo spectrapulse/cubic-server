@@ -1,6 +1,5 @@
 #include "Stop.hpp"
 #include "Server.hpp"
-#include "World.hpp"
 
 using namespace command_parser;
 
@@ -9,10 +8,7 @@ void Stop::autocomplete(std::vector<std::string>& args) const {
 }
 
 void Stop::execute(std::vector<std::string>& args) const {
-    auto server = Server::getInstance();
-
-    server->getWorldGroup("default")->getWorld("default")->save();
-    server->stop();
+    Server::getInstance()->stop();
 }
 
 void Stop::help(std::vector<std::string>& args) const {
