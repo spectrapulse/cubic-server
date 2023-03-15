@@ -19,7 +19,8 @@ Player::Player(Client *cli, std::shared_ptr<Dimension> dim, u128 uuid, const std
     _keepAliveId(0),
     _keepAliveIgnored(0),
     _gamemode(0),
-    _keepAliveClock(200, std::bind(&Player::_processKeepAlive, this)) // 5 seconds for keep-alives
+    _keepAliveClock(200, std::bind(&Player::_processKeepAlive, this)), // 5 seconds for keep-alives
+    _synchronizeClock(20, std::bind(&Player::synchronize, this)) // 1 seconds for synchronization
 {
     _keepAliveClock.start();
     _heldItem = 0;
@@ -80,6 +81,7 @@ Player::~Player()
 void Player::tick()
 {
     _keepAliveClock.tick();
+    _synchronizeClock.tick();
 
     bool updatePos = false;
     bool updateRot = false;
@@ -147,6 +149,11 @@ void Player::tick()
 
     if (_pos.y < -100)
         sendSynchronizePosition({_pos.x, -58, _pos.z});
+}
+
+void Player::synchronize() {
+    // TODO: synchronize further data (for example other entities)
+    this->sendSynchronizePlayerPosition();
 }
 
 Client *Player::getClient() const
@@ -556,6 +563,29 @@ void Player::sendSynchronizePosition(Vector3<double> pos)
             continue;
         i->sendTeleportEntity(this->getId(), pos);
     }
+}
+
+void Player::sendSynchronizePlayerPosition(const protocol::SynchronizePlayerPosition &data)
+{
+    auto pck = protocol::createSynchronizePlayerPosition(data);
+    this->_cli->_sendData(*pck);
+    LDEBUG("Synchronized player position");
+}
+
+void Player::sendSynchronizePlayerPosition(void)
+{
+    auto pck = protocol::createSynchronizePlayerPosition({
+        this->_pos.x,
+        this->_pos.y,
+        this->_pos.z,
+        static_cast<float>(this->_rot.x),
+        static_cast<float>(this->_rot.y),
+        0,
+        0,
+        false,
+    });
+    this->_cli->_sendData(*pck);
+    LDEBUG("Synchronized player position");
 }
 
 void Player::sendChunkAndLightUpdate(const Position2D &pos)

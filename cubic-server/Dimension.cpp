@@ -30,6 +30,7 @@ void Dimension::stop()
 
 void Dimension::initialize()
 {
+    this->_isRunning = true;
     this->_processingThread = std::thread(&Dimension::_run, this);
 }
 
