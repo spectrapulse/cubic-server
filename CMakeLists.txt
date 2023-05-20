@@ -46,6 +46,12 @@ FetchContent_Declare(
 )
 
 FetchContent_Declare(
+    spdlog
+    GIT_REPOSITORY https://github.com/gabime/spdlog.git
+    GIT_TAG v1.11.0
+)
+
+FetchContent_Declare(
     noise
     GIT_REPOSITORY https://github.com/Reputeless/PerlinNoise.git
     GIT_TAG v3.0.0
@@ -69,7 +75,12 @@ FetchContent_MakeAvailable(
     noise
     argparse
     CRCpp
+    spdlog
 )
+
+# Fix spdlog warnings
+get_target_property(spdlog_include spdlog INTERFACE_INCLUDE_DIRECTORIES)
+target_include_directories(spdlog SYSTEM INTERFACE ${spdlog_include})
 
 if(GTEST) # if the flag GTEST is true
     FetchContent_Declare(
@@ -125,4 +136,6 @@ target_link_libraries (${CMAKE_PROJECT_NAME} PRIVATE
     yaml-cpp
     curl
     CRCpp
+    spdlog::spdlog
+    $<$<BOOL:${MINGW}>:ws2_32>
 )

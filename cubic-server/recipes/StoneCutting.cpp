@@ -25,7 +25,7 @@ namespace Recipe {
 
     void StoneCutting::dump(void) const
     {
-        LINFO("\"", Server::getInstance()->getItemConverter().fromProtocolIdToItem(this->_ingredient), "\" -> \"", Server::getInstance()->getItemConverter().fromProtocolIdToItem(this->_result), "\" (x", this->_count, ")");
+        LINFO("\"{}\" -> \"{}\" (x{})", Server::getInstance()->getItemConverter().fromProtocolIdToItem(this->_ingredient), Server::getInstance()->getItemConverter().fromProtocolIdToItem(this->_result), this->_count);
     }
 
     std::unique_ptr<Recipe> StoneCutting::create(const nlohmann::json &recipe)

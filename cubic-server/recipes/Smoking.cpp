@@ -28,7 +28,7 @@ namespace Recipe {
 
     void Smoking::dump(void) const
     {
-        LINFO("\"", Server::getInstance()->getItemConverter().fromProtocolIdToItem(this->_ingredient) << "\" -> \"" << Server::getInstance()->getItemConverter().fromProtocolIdToItem(this->_result) << "\" (cooking for " << this->_cookingTime, " ticks and get ", this->_experience, " xp)");
+        LINFO("\"{}\" -> \"{}\" (cooking for {} ticks and get {} xp)", Server::getInstance()->getItemConverter().fromProtocolIdToItem(this->_ingredient), Server::getInstance()->getItemConverter().fromProtocolIdToItem(this->_result), this->_cookingTime, this->_experience);
     }
 
     std::unique_ptr<Recipe> Smoking::create(const nlohmann::json &recipe)

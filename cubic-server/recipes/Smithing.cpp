@@ -29,7 +29,7 @@ namespace Recipe {
 
     void Smithing::dump(void) const
     {
-        LINFO("\"", Server::getInstance()->getItemConverter().fromProtocolIdToItem(this->_base), "\" + \"", Server::getInstance()->getItemConverter().fromProtocolIdToItem(this->_addition), "\" = \"", Server::getInstance()->getItemConverter().fromProtocolIdToItem(this->_result), "\"");
+        LINFO("\"{}\" + \"{}\" = {}", Server::getInstance()->getItemConverter().fromProtocolIdToItem(this->_base), Server::getInstance()->getItemConverter().fromProtocolIdToItem(this->_addition), Server::getInstance()->getItemConverter().fromProtocolIdToItem(this->_result));
     }
 
     std::unique_ptr<Recipe> Smithing::create(const nlohmann::json &recipe)

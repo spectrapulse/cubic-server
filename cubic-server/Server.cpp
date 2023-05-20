@@ -54,7 +54,7 @@ Server::~Server() { }
 void Server::launch(const configuration::ConfigHandler &config)
 {
     this->_config = config;
-    LINFO("Starting server on ", _config["ip"], ":", _config["port"]);
+    LINFO("Starting server on {}:{}", _config["ip"], _config["port"]);
     int yes = 1;
     int no = 0;
 
@@ -172,9 +172,9 @@ void Server::_stop()
 void Server::_downloadFile(const std::string &url, const std::string &path)
 {
     if (std::filesystem::exists(path)) {
-        LDEBUG("File " << path << " already exists. Skipping download");
+        LDEBUG("File ", path, " already exists. Skipping download");
     } else {
-        LDEBUG("Downloading file " << path);
+        LDEBUG("Downloading file ", path);
         CURL *curl;
         FILE *fp;
         curl = curl_easy_init();
@@ -191,19 +191,19 @@ void Server::_downloadFile(const std::string &url, const std::string &path)
     std::ifstream file(path);
     std::string str((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
     std::uint32_t crc = CRC::Calculate(str.c_str(), str.length(), CRC::CRC_32());
-    LDEBUG("CRC32 of " << path << " is 0x" << std::hex << crc);
+    LDEBUG("CRC32 of {} is 0x{:x}", path, crc);
     try {
         _checksums.at(url);
     } catch (std::out_of_range &e) {
-        LFATAL("No checksum for file " << path << ". Maybe this version is not supported.");
         _running = false;
+        LFATAL("No checksum for file {}. Maybe this version is not supported.", path);
         return;
     }
     if (crc == _checksums.at(url))
-        LDEBUG("File " << path << " is valid");
+        LDEBUG("File {} is valid", path);
     else {
-        LFATAL("File " << path << " is corrupted. Please delete it and restart the server");
         _running = false;
+        LFATAL("File {} is corrupted. Please delete it and restart the server", path);
         return;
     }
 }
