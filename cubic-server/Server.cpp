@@ -2,6 +2,7 @@
 #include <netdb.h>
 #include <poll.h>
 #include <sys/socket.h>
+#include <fstream>
 
 #include <CRC.h>
 
@@ -172,9 +173,9 @@ void Server::_stop()
 void Server::_downloadFile(const std::string &url, const std::string &path)
 {
     if (std::filesystem::exists(path)) {
-        LDEBUG("File ", path, " already exists. Skipping download");
+        LDEBUG("File {} already exists. Skipping download", path);
     } else {
-        LDEBUG("Downloading file ", path);
+        LDEBUG("Downloading file {}", path);
         CURL *curl;
         FILE *fp;
         curl = curl_easy_init();

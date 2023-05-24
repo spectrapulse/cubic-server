@@ -119,15 +119,21 @@ int main(int argc, char *argv[])
     std::signal(SIGINT, signalHandler);
     std::signal(SIGPIPE, SIG_IGN);
 
-    if (program["nogui"] == false)
-        interfaceContainer.launch(argc, argv);
+    try {
+        if (program["nogui"] == false)
+            interfaceContainer.launch(argc, argv);
 
-    // This should be inside the server
-    cmd.launch();
+        // This should be inside the server
+        cmd.launch();
 
-    srv->launch(program);
+        srv->launch(program);
 
-    cmd.stop();
-    interfaceContainer.stop();
+        cmd.stop();
+        interfaceContainer.stop();
+    } catch (const std::exception &e) {
+        LFATAL(e.what());
+        return 1;
+    }
+
     return 0;
 }
