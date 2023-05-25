@@ -7,7 +7,7 @@
 #include "CommandLine.hpp"
 #include "Server.hpp"
 #include "interface/InterfaceContainer.hpp"
-#include "logging/Logger.hpp"
+#include "logging/logging.hpp"
 #include "options.hpp"
 
 auto initArgs(int argc, const char *const argv[])
@@ -104,7 +104,7 @@ void signalHandler(int sig)
 
 int main(int argc, char *argv[])
 {
-    logging::initLogger();
+    logging::instance();
     auto program = initArgs(argc, argv);
 
     auto srv = Server::getInstance();

@@ -1,6 +1,7 @@
 #include "CraftingShapeless.hpp"
 
 #include "Server.hpp"
+#include "logging/logging.hpp"
 
 namespace Recipe {
     CraftingShapeless::CraftingShapeless(const nlohmann::json &recipe):
@@ -36,7 +37,7 @@ namespace Recipe {
         for (const auto &item : this->_ingredients) {
             if (first == true)
                 first = false;
-            else 
+            else
                 stream << "+ ";
             stream << "\"" << Server::getInstance()->getItemConverter().fromProtocolIdToItem(item) << "\" ";
         }

@@ -1,6 +1,7 @@
 #include <curl/curl.h>
 #include <netdb.h>
 #include <poll.h>
+#include <spdlog/spdlog.h>
 #include <sys/socket.h>
 #include <fstream>
 
@@ -15,7 +16,7 @@
 #include "Player.hpp"
 #include "WorldGroup.hpp"
 #include "default/DefaultWorldGroup.hpp"
-#include "logging/Logger.hpp"
+#include "logging/logging.hpp"
 
 static const std::unordered_map<std::string, std::uint32_t> _checksums = {
     {"https://cdn.cubic-mc.com/1.19/blocks-1.19.json", 0x8b138b58},

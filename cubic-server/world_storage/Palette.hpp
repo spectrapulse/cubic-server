@@ -6,7 +6,6 @@
 #include <numeric>
 #include <unordered_map>
 #include <vector>
-#include "logging/Logger.hpp"
 
 namespace world_storage {
 

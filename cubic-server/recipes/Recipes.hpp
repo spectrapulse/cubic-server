@@ -12,7 +12,7 @@
 #include "exceptions.hpp"
 
 /*
-  Trying to create a recipe without a valid constructor 
+  Trying to create a recipe without a valid constructor
   throws a UnknownRecipeType exception
 */
 DEFINE_EXCEPTION(UnknownRecipeType);
@@ -21,7 +21,7 @@ namespace Recipe {
     class Recipe {
     public:
         Recipe(const nlohmann::json &recipe);
-        ~Recipe() = default;
+        virtual ~Recipe() = default;
 
         bool hasCategory(void) const noexcept;
         void setCategory(const nlohmann::json &recipe);

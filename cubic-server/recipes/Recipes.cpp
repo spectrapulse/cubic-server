@@ -2,7 +2,7 @@
 #include <iostream>
 #include <fstream>
 
-#include "logging/Logger.hpp"
+#include "logging/logging.hpp"
 
 #include "Recipes.hpp"
 

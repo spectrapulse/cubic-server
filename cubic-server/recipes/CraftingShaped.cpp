@@ -1,6 +1,7 @@
 #include "CraftingShaped.hpp"
 
 #include "Server.hpp"
+#include "logging/logging.hpp"
 
 namespace Recipe {
     CraftingShaped::MaybeItems::MaybeItems(void) : _empty(true)
